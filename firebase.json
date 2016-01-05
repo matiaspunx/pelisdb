@@ -1,0 +1,14 @@
+{
+  "firebase": "pelisdb",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**",
+    "**/sw-toolbox/**"
+  ],
+  "rewrites": [ {
+    "source": "**",
+    "destination": "/index.html"
+  } ]
+}
