@@ -1,0 +1,91 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="pelis-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-material {
+        border-radius: 2px;
+        padding: 7px;
+        margin: 5px;
+        background: white;
+      }
+      paper-dialog {
+        height: 400px;
+        width: 75%;
+        background-color: white;
+      }
+      .container {
+        margin-top: 30px;
+      }
+    </style>
+    <div id="movies" class="container text-center">
+      <div class="flex wrap layout horizontal">
+        <template is="dom-repeat" items="{{movies}}">
+          <paper-material class="mv-card" elevation="1">
+            <div class="mv-item" on-click="viewMovie">
+              <iron-image src="{{item.img}}" class="mv-image placeholder-color" preload fade sizing="cover"></iron-image>
+              <div class="mv-details">
+                <h2>{{item.title}}</h2>
+                <!-- <p>{{item.sinopsis}}</p> -->
+                <p>Stars: {{item.cast}}</p>
+                <paper-icon-button icon="delete" on-click="deleteMovie"></paper-icon-button>
+                <paper-icon-button icon="create" itemid="{{item.uid}}" on-click="openEditMovie"></paper-icon-button>
+              </div>
+            </div>
+          </paper-material>
+        </template>
+      </div>
+
+      <paper-dialog id="addMovie" opened="{{opened}}" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+        <pelis-dialog id="movieId" class="movie flex" movie="{{selectedMovie}}"></pelis-dialog>
+      </paper-dialog>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+  
+      Polymer({
+        is: 'pelis-list',
+        properties: {
+          movies: {
+            type: Object,
+            notify: true,
+            observer: '_cambiosPelis'
+          }
+        },
+        ready: function() {
+          //
+        },
+        openEditMovie: function(event) {
+          event.stopPropagation();
+          app.openEditMovie(event);
+        },
+        deleteMovie: function(event) {
+          event.stopPropagation();
+          app.deleteMovie(event);
+        },
+        viewMovie: function(event) {
+          event.stopPropagation();
+          this.openMovie(event.model.item);
+        },
+        openMovie: function(movie) {
+            this.opened = true;
+            this.selectedMovie = movie;
+            console.log('open?');
+        },
+        closeMovie: function() {
+            this.opened = false;
+        },
+        _cambiosPelis: function(event, response) {
+          console.log(event);
+          console.log(response);
+        }
+      });
+    })();
+  </script>
+</dom-module>

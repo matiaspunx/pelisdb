@@ -1,18 +1,20 @@
-/* jshint ignore:start */
 (function(document) {
   'use strict';
 
-  // Grab a reference to our auto-binding template
-  // and give it some initial binding values
-  // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
+  var profilePic = '';
+  var profileName = '';
 
   app.firebaseURL = 'https://pelisdb.firebaseio.com';
-  app.firebaseProvider = 'anonymous';
+  app.firebaseProvider = 'google';
   
   app.movies = [];
   app.itemid = '';
+
+  // Sets app default base URL
+  app.baseUrl = '/';
   
+  // función para limpiar los campos del formulario de edit y add
   app.cleanFields = function() {
     this.newMovieImg = '';
     this.newMovieTitle = '';
@@ -20,20 +22,7 @@
     this.newMovieCast = '';
   };
 
-  app.addMovie = function(event) {
-    event.preventDefault(); // Don't send the form!
-    this.ref.push({
-      img: app.newMovieImg, 
-      title: app.newMovieTitle,
-      sinopsis: app.newMovieSinopsis,
-      cast: app.newMovieCast
-    });
-    this.openedAdd = false;
-    app.$.toast.text = '¡Pelicula ' + app.newMovieTitle + ' agregada con exito!';
-    app.$.toast.show();
-    app.cleanFields();
-  };
-
+  // funcion para abrir el dialog para editar pelicula
   app.openEditMovie = function(event) {
     this.openedEdit = true;
     app.itemid = event.model.item.uid;
@@ -43,18 +32,37 @@
     this.newMovieCast = event.model.item.cast;
   };
 
-  app.openAddMovie = function(event) {
+  // funcion para abrir el dialog para agregar pelicula
+  app.openAddMovie = function() {
     this.openedAdd = true;
     app.cleanFields();
   };
 
+  // función para agregar una pelicula a la base de datos.
+  app.addMovie = function(event) {
+    event.preventDefault(); // prevent default para no enviar el formulario.
+    if (app.newMovieTitle != '') {
+      this.ref.push({
+        title: app.newMovieTitle,
+        img: app.newMovieImg, 
+        sinopsis: app.newMovieSinopsis,
+        cast: app.newMovieCast
+      });
+      this.openedAdd = false;
+      app.$.toast.text = '¡Pelicula ' + app.newMovieTitle + ' agregada con exito!';
+      app.$.toast.show();
+      app.cleanFields();
+    }
+  };
+
+  // borrar pelicula de la base de datos.
   app.deleteMovie = function(event) {
     this.ref.child(event.model.item.uid).remove();
   };
 
+  // Actualizamos una pelicula.
   app.updateMovie = function(event) {
-    event.preventDefault();
-    console.log(app.itemid);
+    event.preventDefault(); // prevent default para no enviar el formulario.
     this.ref.child(app.itemid).update({
       img: app.newMovieImg, 
       title: app.newMovieTitle,
@@ -82,19 +90,13 @@
   };
 
   app.onFirebaseLogin = function(event) {
+    profilePic = event.detail.user.google.profileImageURL;
+    profileName = event.detail.user.google.displayName;
     this.ref = new Firebase(this.firebaseURL + '/user/' + event.detail.user.uid);
     this.ref.on('value', function(snapshot) {
       app.updateMovies(snapshot);
     });
   };
-
-  // Sets app default base URL
-  app.baseUrl = '/';
-  if (window.location.port === '') {  // if production
-    // Uncomment app.baseURL below and
-    // set app.baseURL to '/your-pathname/' if running from folder in production
-    // app.baseUrl = '/polymer-starter-kit/';
-  }
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
@@ -107,6 +109,7 @@
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Movie data base is ready to rock!');
+
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
@@ -115,4 +118,3 @@
   });
 
 })(document);
-/* jshint ignore:end */

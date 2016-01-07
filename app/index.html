@@ -16,17 +16,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="Polymer Starter Kit" />
-  <title>Movie data base</title>
+  <title>Pelis Data Base</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#2E3AA1">
+  <meta name="theme-color" content="#111111">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-TileColor" content="#111111">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -42,10 +42,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
 
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
-
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
@@ -56,6 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
 
 </head>
 
@@ -76,52 +76,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-
       <section data-route="movies">
 
         <paper-toolbar>
-          <div class="title">Movie Data Base</div>
+          <div class="title">
+            <!-- <div class="user">
+              <iron-image src="[[profilePic]]" width="48" height="48" class="placeholder-color" preload fade sizing="cover"></iron-image>
+            </div> -->
+            <div class="iso"><iron-image src="/images/touch/android-icon-48x48.png" width="48" height="48" class="placeholder-color" preload fade sizing="cover"></iron-image></div>
+            <div class="titulo">Pelis Data Base</div>
+          </div>
           <paper-fab icon="add" on-tap="openAddMovie"></paper-fab>
         </paper-toolbar>
 
-        <div id="movies" class="container text-center">
-          <div class="flex wrap layout horizontal">
-            <template is="dom-repeat" items="{{movies}}">
-              <paper-material class="mv-card" elevation="1">
-                <div class="mv-item">
-                  <iron-image src="{{item.img}}" class="mv-image placeholder-color" preload fade sizing="cover"></iron-image>
-                  <div class="mv-details">
-                  <h2>{{item.title}}</h2>
-                  <!-- <p>{{item.sinopsis}}</p> -->
-                  <p>Stars: {{item.cast}}</p>
-                  <paper-icon-button icon="delete" on-click="deleteMovie"></paper-icon-button>
-                  <paper-icon-button icon="create" itemid="{{item.uid}}" on-click="openEditMovie"></paper-icon-button>
-                  </div>
-                </div>
-              </paper-material>
-            </template>
-          </div>
-        </div>
+        <pelis-list movies="{{movies}}"></pelis-list>
 
       </section>
 
-      <section data-route="form">
-        hey
+      <section data-route="movie">
+        Detalles de la peli
       </section>
 
     </iron-pages>
 
+    <!-- form para agregar una pelicula -->
     <paper-dialog id="addMovie" opened="{{openedAdd}}" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
       <h3>Agregar Pelicula:</h3>
       <form on-submit="addMovie">
-        <paper-input value="{{newMovieTitle}}" placeholder="Ingresá el titulo de la peli"></paper-input>
+        <paper-input value="{{newMovieTitle}}" placeholder="Ingresá el titulo de la peli" required auto-validate error-message="El titulo es necesario"></paper-input>
         <paper-input value="{{newMovieImg}}" placeholder="Ingresá la url del poster de la peli"></paper-input>
         <paper-input value="{{newMovieSinopsis}}" placeholder="Ingresá la sinopsis de la peli"></paper-input>
-        <paper-input value="{{newMovieCast}}" placeholder="Ingresá la sinopsis de la peli"></paper-input>
+        <paper-input value="{{newMovieCast}}" placeholder="Ingresá los protagonistas de la peli"></paper-input>
         <paper-button class="primary" raised on-click="addMovie">Agregar pelicula</paper-button>
       </form>
     </paper-dialog>
+    <!-- / form para agregar una pelicula -->
 
+    <!-- form para editar una pelicula -->
     <paper-dialog id="editMovie" opened="{{openedEdit}}" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
       <h3>Editar Pelicula:</h3>
       <form on-submit="updateMovie">
@@ -132,6 +123,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button class="primary" raised on-click="updateMovie">Editar pelicula</paper-button>
       </form>
     </paper-dialog>
+    <!-- / form para editar una pelicula -->
   </div>
 
     <paper-toast id="toast">
@@ -160,6 +152,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
+  <!-- build:js scripts/moviedb.js -->
+  <script src="scripts/vendors/themoviedb.js"></script>
+  <!-- endbuild-->
 </body>
-
 </html>

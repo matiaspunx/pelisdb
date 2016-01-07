@@ -22,6 +22,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   /* Application theme */
 
   :root {
+    --green-primary-color: #57D9B0;
+    --green-alt-color: #43C199;
+    --magenta-primary-color: #FB4782;
+
     --dark-primary-color: #303F9F;
     --default-primary-color: #3F51B5;
     --light-primary-color: #C5CAE9;
@@ -47,39 +51,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* General styles */
 
-  paper-scroll-header-panel {
-    height: 100%;
-  }
-  paper-material {
-    border-radius: 2px;
-    height: 100%;
-    padding: 7px;
-    width: 25%;
-    margin: 5px;
-    background: white;
+  body {
+    background-color: var(--green-primary-color);
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #fff;
   }
   paper-button.primary {
     background-color: var(--default-primary-color);
+    color: white;
     --paper-button-flat-keyboard-focus: {
-      background-color: var(--paper-menu-background-color-a200);
+      background-color: var(--paper-menu-background-color);
       color: white !important;
     };
     --paper-button-raised-keyboard-focus: {
-      background-color: var(--paper-menu-background-color-a200) !important;
+      background-color: var(--paper-menu-background-color) !important;
       color: white !important;
     };
   }
-  paper-button.primary:hover {
+  paper-button.primary:hover, paper-button.primary:visited {
     background-color: var(--dark-primary-color);
+    color: white;
   }
-
   paper-button.secondary {
     background-color: var(--accent-color);
     color: white;
   }
   paper-button.secondary[active] {
     background-color: var(--paper-menu-background-color);
-    
   }
   paper-button.disabled {
     color: #666;
@@ -89,25 +87,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     margin-top: 60px;
   }
   paper-toolbar {
-    background-color: #222;
+    background-color: var(--green-alt-color);
   }
   paper-dialog {
     width: 75%;
+    background-color: white;
   }
   .toolbar-tools.paper-toolbar > .title, .toolbar-tools.paper-toolbar [select=".middle"] > .title, .toolbar-tools.paper-toolbar [select=".bottom"] > .title {
     margin-left: 0;
   }
 
   /* Height of the scroll area */
-  .container {
-    margin-top: 40px;
-  }
   .content {
     height: 900px;
   }
-
   #toast .toast-hide-button {
-    color: #eeff41;
+    color: #000;
     margin: 10px;
   }
 

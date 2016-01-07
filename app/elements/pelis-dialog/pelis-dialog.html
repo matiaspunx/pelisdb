@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="pelis-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-material {
+        border-radius: 2px;
+        padding: 7px;
+        margin: 5px;
+        background: white;
+      }
+      .container {
+        margin-top: 30px;
+      }
+    </style>
+    <p>{{movie.title}}</p>
+    <iron-image src="{{movie.img}}" width="250" height="300" class="mv-image placeholder-color" preload fade sizing="cover"></iron-image>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+  
+      Polymer({
+        is: 'pelis-dialog',
+        properties: {
+          movie: {
+            type: Object,
+            notify: true,
+          }
+        },
+        ready: function() {
+          
+        }
+      });
+    })();
+  </script>
+</dom-module>

@@ -109,6 +109,7 @@ gulp.task('elements', function() {
 gulp.task('lint', function() {
   return gulp.src([
       'app/scripts/**/*.js',
+      '!app/scripts/vendors/**/*.js',
       'app/elements/**/*.js',
       'app/elements/**/*.html',
       'gulpfile.js'
